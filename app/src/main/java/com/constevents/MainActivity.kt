@@ -1,4 +1,4 @@
-package com.example.constevents
+package com.constevents
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

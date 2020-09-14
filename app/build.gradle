@@ -7,7 +7,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.example.constevents"
+        applicationId "com.constevents"
         minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
@@ -18,20 +18,63 @@ android {
 
     buildTypes {
         release {
+            debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "API_URL", "\"https://app.ticketmaster.com/\""
+            buildConfigField "String", "API_KEY", "\"5ike7MSNlAAvxYKqXhSyNY324bnkkwld\""
+        }
+
+        debug {
+            debuggable false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "API_URL", "\"https://app.ticketmaster.com/\""
+            buildConfigField "String", "API_KEY", "\"5ike7MSNlAAvxYKqXhSyNY324bnkkwld\""
         }
     }
 }
 
+ext {
+    //app
+    androidCoreVersion = "1.3.1"
+    androidAppCompatVersion = "1.2.0"
+    constraintLayoutVersion = "2.0.1"
+    koinVersion = "2.1.6"
+    rxAndroidVersion = "2.1.1"
+    rxKotlinVersion = "2.4.0"
+    retrofitVersion = "2.8.2"
+    retrofitLogVersion = "4.4.1"
+
+    //test
+    androidJunitVersion = "1.1.2"
+    archCoreTestingVersion = "2.1.0"
+    espressoVersion = "3.3.0"
+    junitVersion = "4.12"
+    mockitoKotlinVersion = "2.1.0"
+    runnerVersion = "1.3.0"
+}
+
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.1.0'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    implementation "androidx.core:core-ktx:$androidCoreVersion"
+    implementation "androidx.appcompat:appcompat:$androidAppCompatVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+    implementation "org.koin:koin-android:$koinVersion"
+    implementation "org.koin:koin-android-viewmodel:$koinVersion"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$retrofitLogVersion"
+
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
+    testImplementation "androidx.arch.core:core-testing:$archCoreTestingVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidJunitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "androidx.test:runner:$runnerVersion"
 
 }
