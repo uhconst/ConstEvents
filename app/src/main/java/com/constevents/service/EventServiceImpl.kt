@@ -8,13 +8,12 @@ class EventServiceImpl(
     private val api: EventApi
 ) : EventService {
 
-    override fun getEvents(): Single<List<Event>> {
-        return api.getEvents()
+    override fun getEvents(): Single<List<Event>> =
+        api.getEvents()
             .subscribeOn(Schedulers.io())
             .flattenAsObservable { it.embedded.events }
             .map { eventResponse ->
                 eventResponse.toEvent()
             }
             .toList()
-    }
 }
