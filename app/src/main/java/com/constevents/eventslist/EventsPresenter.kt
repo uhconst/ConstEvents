@@ -1,33 +1,61 @@
 package com.constevents.eventslist
 
+import android.util.Log
 import com.constevents.model.Event
 import com.constevents.service.EventService
 import io.reactivex.Scheduler
+import io.reactivex.disposables.Disposable
 
-class EventsPresenter (
+class EventsPresenter(
     private val view: EventsContract.View,
     private val eventService: EventService,
-    private val state: EventsSortState,
+    private val state: EventsState,
     private val main: Scheduler
-): EventsContract.Presenter {
+) : EventsContract.Presenter {
 
+    private var disposable: Disposable? = null
+
+    /**
+     * Loads the data from the API if necessary.
+     * then binds the data to use view.
+     */
     override fun onResume() {
-        view.loading = true
-
-        eventService.getEvents()
-            .observeOn(main)
-            .doFinally { view.loading = false }
-            .subscribe(::success, ::error)
-
-//        state.events = events.event
-//        setEventsList()
+        if (state.isLoaded) {
+            view.setEvents(state.events)
+        } else {
+            loadEvents()
+        }
     }
 
-    private fun success(events: List<Event>) {
-        view.setEvents(events)
+    override fun onDestroy() {
+        disposable?.dispose()
+    }
+
+    override fun sortByName() {
+        state.events
+            .sortedBy { it.name }
+            .let { view.setEvents(it) }
+    }
+
+    private fun success(eventsList: List<Event>) {
+        state.apply {
+            events = eventsList
+            isLoaded = true
+        }
+        view.setEvents(eventsList)
     }
 
     private fun error(throwable: Throwable) {
-        //todo show toast
+        throwable.message?.let {
+            Log.e("Error fetching data: ", it)
+        }
+        view.showError()
+    }
+
+    private fun loadEvents() {
+        disposable?.dispose()
+        disposable = eventService.getEvents()
+            .observeOn(main)
+            .subscribe(::success, ::error)
     }
 }

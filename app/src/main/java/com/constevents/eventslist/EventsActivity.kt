@@ -1,6 +1,7 @@
 package com.constevents.eventslist
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.constevents.R
 import com.constevents.di.RxSchedulerType
@@ -15,14 +16,14 @@ class EventsActivity : AppCompatActivity(R.layout.events_activity), EventsContra
 
     private val presenter: EventsContract.Presenter by currentScope.inject()
 
-    override var loading: Boolean
-        get() = false
-        set(value) {}
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         recycler_events.adapter = EventAdapter()
+
+        btn_sort.setOnClickListener {
+            presenter.sortByName()
+        }
     }
 
     override fun onResume() {
@@ -30,9 +31,19 @@ class EventsActivity : AppCompatActivity(R.layout.events_activity), EventsContra
         presenter.onResume()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDestroy()
+    }
+
     override fun setEvents(events: List<Event>) {
         (recycler_events.adapter as EventAdapter).setEvents(events)
     }
+
+    override fun showError() {
+        Toast.makeText(this, R.string.error_msg, Toast.LENGTH_LONG).show()
+    }
+
 
     companion object {
         /**
@@ -50,7 +61,7 @@ class EventsActivity : AppCompatActivity(R.layout.events_activity), EventsContra
                         main = get(named(RxSchedulerType.MAIN))
                     )
                 }
-                viewModel { EventsSortState() }
+                viewModel { EventsState() }
             }
         }
     }

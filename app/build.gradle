@@ -50,10 +50,12 @@ ext {
 
     //test
     androidJunitVersion = "1.1.2"
+    androidxTest = "1.1.0"
     archCoreTestingVersion = "2.1.0"
     assertKVersion = "0.22"
     espressoVersion = "3.3.0"
     junitVersion = "4.12"
+    koinTestVersion = "2.1.6"
     mockitoKotlinVersion = "2.1.0"
     mockkVersion = "1.9.3"
     robolectricVersion = "4.3.1"
@@ -82,6 +84,10 @@ dependencies {
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "io.mockk:mockk:$mockkVersion"
     testImplementation "com.willowtreeapps.assertk:assertk-jvm:$assertKVersion"
+    testImplementation "org.koin:koin-test:$koinTestVersion"
+    testImplementation "androidx.test:core:$androidxTest"
+    testImplementation "androidx.test:runner:$androidxTest"
+    testImplementation "androidx.test:rules:$androidxTest"
     androidTestImplementation "com.willowtreeapps.assertk:assertk-jvm:$assertKVersion"
     androidTestImplementation "io.mockk:mockk-android:$mockkVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidJunitVersion"
