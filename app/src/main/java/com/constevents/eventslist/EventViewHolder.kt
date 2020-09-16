@@ -15,8 +15,10 @@ class EventViewHolder constructor(
     }
 
     fun bind(event: Event) {
-        itemView.viewholder_event_label.apply {
-            text = event.name
+        itemView.apply {
+            viewholder_event_label.text = event.name
+            viewholder_venue_label.text = event.venue
+            viewholder_date_label.text = event.dates
         }
     }
 }
