@@ -37,7 +37,6 @@ class EventServiceImplTest {
             Event(
                 id = eventId,
                 name = "name",
-                imageUrl = "/image.jpg",
                 dates = "05/02/1993",
                 venue = "National Museum"
             )

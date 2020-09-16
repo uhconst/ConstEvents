@@ -34,7 +34,6 @@ sealed class EventDto {
         fun toEvent() = Event(
             id = id,
             name = name,
-            imageUrl = images.first().url,
             dates = dates.start.localDate,
             venue = _embedded.venues.first().name
         )

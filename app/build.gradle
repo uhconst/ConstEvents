@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 30
@@ -18,7 +19,7 @@ android {
 
     buildTypes {
         release {
-            debuggable true
+            debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "API_URL", "\"https://app.ticketmaster.com/\""
@@ -26,7 +27,7 @@ android {
         }
 
         debug {
-            debuggable false
+            debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "API_URL", "\"https://app.ticketmaster.com/\""
@@ -43,6 +44,7 @@ ext {
     koinVersion = "2.1.6"
     rxAndroidVersion = "2.1.1"
     rxKotlinVersion = "2.4.0"
+    recyclerViewVersion = "1.1.0"
     retrofitVersion = "2.8.2"
     retrofitLogVersion = "4.4.1"
 
@@ -72,6 +74,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:$retrofitLogVersion"
+    implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
 
     testImplementation "junit:junit:$junitVersion"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
